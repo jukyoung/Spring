@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,15 +32,11 @@ public class HomeController {
 		return "input";
 	}
 	@RequestMapping(value = "/sendMemo")
-	public String sendMemo(StudentDTO dto) {
+	public String sendMemo(StudentDTO dto)throws Exception {
 		System.out.println("sendMemo 요청");
-		try {
+
 			dao.insert(dto);
-		}catch(Exception e) {
-			e.printStackTrace();
-			return "redirect:/toError";
-		}
-		return "redirect:/";
+			return "redirect:/";
 	}
 	@RequestMapping(value = "/toError")
 	public String toError() {
@@ -47,15 +44,34 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "toOutput")
-	public String toOutput(Model model) {
+	public String toOutput(Model model)throws Exception {
 		System.out.println("toOutput 요청");
-		try {
-			ArrayList<StudentDTO> list =dao.selectAll();
-			model.addAttribute("list", list);
-		}catch(Exception e) {
-			e.printStackTrace();
-			return "redirect:/toError";
-		}
-		return "output";
+		
+	 ArrayList<StudentDTO> list =dao.selectAll();
+	 model.addAttribute("list", list);
+	 return "output";
+	}
+	@RequestMapping(value = "delete")  // 데이터 삭제 요청
+	public String delete(int no) throws Exception {
+		System.out.println("삭제할 no : " + no);
+		dao.delete(no);
+		return "redirect:/toOutput";
+	}
+	@RequestMapping(value = "toModify")
+	public String toModify(int no, Model model)throws Exception {
+		StudentDTO dto =dao.selectByNo(no);
+		model.addAttribute("dto", dto);
+		return "modify";
+	}
+	@RequestMapping(value = "/modify") // 수정요청
+	public String modify(StudentDTO dto)throws Exception {
+		System.out.println("수정할 데이터 : " + dto.toString());
+		dao.modify(dto);
+		return "redirect:/toOutput";
+	}
+	@ExceptionHandler
+	public String handlerError(Exception e) {
+		System.out.println("에러 발생");
+		return "redirect:/toError";
 	}
 }
