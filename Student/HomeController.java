@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.student.dao.StudentDAO;
 import com.student.dto.StudentDTO;
@@ -69,6 +70,28 @@ public class HomeController {
 		dao.modify(dto);
 		return "redirect:/toOutput";
 	}
+	@RequestMapping(value = "/toOutput2") //ajax toOutput2로 이동요청
+	public String toOutput2() {
+		return "output2";
+	}
+	@ResponseBody
+	@RequestMapping(value = "outputAjax")
+	public ArrayList<StudentDTO> outputAjax() throws Exception{
+		ArrayList<StudentDTO> list = dao.selectAll();
+		return list;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/deleteAjax")
+	public String deleteAjax(int no) throws Exception{
+		int rs = dao.delete(no);
+		if(rs > 0) {
+			return "ok";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
 	@ExceptionHandler
 	public String handlerError(Exception e) {
 		System.out.println("에러 발생");

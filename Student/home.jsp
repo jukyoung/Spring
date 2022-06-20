@@ -9,6 +9,7 @@
 <body>
 	<button type="button" id="toInput">toInput</button>
 	<button type="button" id="toOutput">toOutput</button>
+	<button type="button" id="toOutput2">toOutput2(ajax)</button>
 	
 	<script>
 		document.getElementById("toInput").onclick = function(){
@@ -16,6 +17,9 @@
 		}
 		document.getElementById("toOutput").onclick = function(){
 			location.href="toOutput";
+		}
+		document.getElementById("toOutput2").onclick = function(){
+			location.href="toOutput2";
 		}
 	</script>
 </body>
