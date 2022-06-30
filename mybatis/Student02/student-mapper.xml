@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+   <mapper namespace="studentMapper">
+   		<insert id="insert" parameterType="kh.student.dto.StudentDTO">
+   			insert into student values(seq_std.nextval, #{name}, #{memo})
+   		</insert>
+   		
+   		<select id="selectList" resultType="kh.student.dto.StudentDTO">
+   			select * from student
+   		</select>
+   		
+   		<delete id="delete" parameterType="int">
+   			delete from student where no = #{no}
+   		</delete>
+   		
+   		<select id="selectOne" parameterType="int" resultType="kh.student.dto.StudentDTO">
+   			select * from student where no = #{no}
+   		</select>
+   		
+   		<update id="update" parameterType="kh.student.dto.StudentDTO">
+   			update student set name=#{name},
+   			memo = #{memo} where no = #{no}
+   		</update>
+   		
+   		<select id="search" parameterType="map" resultType="kh.student.dto.StudentDTO">
+   			select * from student where
+   			<if test="category == 'all'">
+   				no like '%'|| #{keyword} || '%'
+   				or name '%'|| #{keyword} || '%'
+   				or memo '%'|| #{keyword} || '%'
+   			</if>
+   			<if test="category != 'all'">
+   			 	${category} like '%'|| #{keyword} || '%'
+   			</if>
+   			
+   		</select>
+   </mapper>
