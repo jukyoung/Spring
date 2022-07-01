@@ -37,4 +37,11 @@
    			</if>
    			
    		</select>
+   		
+   		<delete id="deleteCheck" parameterType="int">
+   			delete from student where no in
+   			<foreach collection="deleteArr" item="num" open="(" close=")" separator=",">
+   				#{num}
+   			</foreach>
+   		</delete>
    </mapper>

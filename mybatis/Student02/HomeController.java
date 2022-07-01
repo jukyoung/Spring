@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.student.dto.StudentDTO;
@@ -50,6 +51,12 @@ public class HomeController {
 	public String delete(int no) throws Exception {
 		service.delete(no);
 		return "redirect:/toOutput";
+	}
+	@ResponseBody
+	@RequestMapping(value ="/deleteCheck")
+	public String deleteCheck(@RequestParam(value="no[]") int[] no) throws Exception{
+		service.deleteCheck(no);
+		return "success";
 	}
 	@RequestMapping(value="/toModify")
 	public String toModify(int no, Model model) throws Exception{

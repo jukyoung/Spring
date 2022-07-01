@@ -32,4 +32,7 @@ public class StudentService {
 	public List<StudentDTO> search(String category, String keyword) throws Exception{
 		return dao.search(category, keyword);
 	}
+	public void deleteCheck(int[] no) throws Exception{
+		dao.deleteCheck(no);
+	}
 }

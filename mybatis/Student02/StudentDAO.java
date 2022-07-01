@@ -15,6 +15,13 @@ public class StudentDAO {
 	@Autowired
 	private SqlSession session;
 	
+	
+	public void deleteCheck(int[] no)throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		map.put("deleteArr", no);
+		session.delete("studentMapper.deleteCheck", map);
+	}
+	
 	public void insert(StudentDTO dto) throws Exception{
 		session.insert("studentMapper.insert", dto);
 	}
